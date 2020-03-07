@@ -1,6 +1,12 @@
 shadowsocks
 ===========
 
+## Usage:
+
+	vim config.json
+	python shadowsocks/server.py
+
+
 [![PyPI version]][PyPI]
 [![Build Status]][Travis CI]
 [![Coverage Status]][Coverage]

@@ -26,6 +26,7 @@ import logging
 import traceback
 import random
 
+from shadowsocks.common import to_bytes, to_str, IPNetwork
 from shadowsocks import cryptor, eventloop, shell, common
 from shadowsocks.common import parse_header, onetimeauth_verify, \
     onetimeauth_gen, ONETIMEAUTH_BYTES, ONETIMEAUTH_CHUNK_BYTES, \
@@ -842,8 +843,19 @@ class TCPRelay(object):
                 # TODO
                 raise Exception('server_socket error')
             try:
-                logging.debug('accept')
                 conn = self._server_socket.accept()
+                sock = conn[0]
+                ip = conn[1][0]
+                allow_ip = to_str(self._config.get('allow_ip', '127.0.0.1')).split(',')
+                for i in range(len(allow_ip)):
+                    allow_ip[i] = allow_ip[i].strip()
+                if ip in allow_ip:
+                    logging.info('allow ' + ip)
+                else:
+                    logging.info('deny ' + ip)
+                    sock.close()
+                    return
+
                 TCPRelayHandler(self, self._fd_to_handlers,
                                 self._eventloop, conn[0], self._config,
                                 self._dns_resolver, self._is_local)

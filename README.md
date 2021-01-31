@@ -3,8 +3,11 @@ shadowsocks
 
 ## Usage:
 
-	vim config.json
-	python shadowsocks/server.py
+```
+mv config.json.example config.json
+vim config.json
+python shadowsocks/server.py
+```
 
 
 [![PyPI version]][PyPI]

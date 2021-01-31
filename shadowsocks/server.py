@@ -71,6 +71,7 @@ def main():
         a_config['password'] = password
         logging.info("starting server at %s:%d" %
                      (a_config['server'], int(port)))
+        logging.info("alow_ip %s", a_config['allow_ip']);
         tcp_servers.append(tcprelay.TCPRelay(a_config, dns_resolver, False))
         # udp_servers.append(udprelay.UDPRelay(a_config, dns_resolver, False))
 
